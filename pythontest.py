@@ -1,4 +1,5 @@
-import json, httplib, urllib, urllib2, demjson, requests
+import httplib, urllib, urllib2, demjson, requests
+import simplejson as json 
 url = 'http://hermes.wha.la/api/hermes'
 #answer = raw_input('Start the Game (Y/N)')
 
@@ -19,10 +20,14 @@ start = {
         'Token' : '3b00ea6d-1383-4fdc-a6a8-9578091947f9',
         'ChangeRequest': None
         }
-
-response = requests.post(url, data = start)
+#print json.dumps(start)
+response = requests.post(url, data = json.dumps(start), headers = headers)
 text2 = json.loads(response.text)
-print text2["ServerState"]['ServerTiers']['DB']["ServerRegions"]["AP"]['NodeCount']
+
+
+
+#print response.text
+#print text2["ServerState"]['ServerTiers']['DB']["ServerRegions"]["AP"]['NodeCount']
 
 #print response.text
 change =  {'Servers':{
@@ -47,23 +52,27 @@ change =  {'Servers':{
                                    }
                                }
                            }
-               }
+               },
+           'UpgradeInfraStructure' : False,
+           'UpgradeToResearch' : 'DEFAULT',
           }
 
-print change['Servers']['DB']["ServerRegions"]["EU"]['NodeCount']
-'''			   
+		   
 changeVals = {
         'Command': 'CHNG',
         'Token' : '3b00ea6d-1383-4fdc-a6a8-9578091947f9',
         'ChangeRequest': change
-}
-headers = {'content-type': 'application/json'}
+          }
 
-response = requests.post(url, data= json.dumps(changeVals), headers=headers)
+#print changeVals['ChangeRequest']['Servers']['DB']["ServerRegions"]["AP"]['NodeCount']
+
+headers = {'content-type': 'application/json'}
+print json.dumps(changeVals)
+response = requests.post(url, data= json.dumps(changeVals, sort_keys=False), headers=headers)
 print response.text
 
 
-
+'''
 
 data2 = urllib.urlencode(datainit)
 
