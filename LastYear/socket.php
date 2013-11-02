@@ -2,7 +2,7 @@
 include 'convert.php';
 include 'webserver.php';
 $sock = socket_create(AF_INET, SOCK_STREAM, 0);
-$ip_address = gethostbyname("hackathon.hopto.org");
+$ip_address = gethostbyname("http://hermes.wha.la/api/hermes");
 
 $percentlast = array();
 $percentmaxlast = array();
