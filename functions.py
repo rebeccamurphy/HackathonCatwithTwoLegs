@@ -137,23 +137,6 @@ def makechange(WEBNODE, JAVANODE, DBNODE):
 	changeVals = {'Command': 'CHNG', 'Token' : '3b00ea6d-1383-4fdc-a6a8-9578091947f9','ChangeRequest': change}
 	response = requests.post(url, data= json.dumps(changeVals, sort_keys=False), headers=headers)
 	text2 = json.loads(response.text)
-	return text2
-
-def addRecords(DBEUrecords, DBNArecords, DBAPrecords, JVEUrecords, JVNArecords, JVAPrecords , WBEUrecords, WBNArecords, WBAPrecords, state):
-	DBEUrecords.append(state["ServerState"]['ServerTiers']['DB']["ServerRegions"]["EU"]['NoOfTransactionsInput'])
-	DBNArecords.append(state["ServerState"]['ServerTiers']['DB']["ServerRegions"]["NA"]['NoOfTransactionsInput'])
-	DBAPrecords.append(state["ServerState"]['ServerTiers']['DB']["ServerRegions"]["AP"]['NoOfTransactionsInput'])
-	
-	JVEUrecords.append(state["ServerState"]['ServerTiers']['JAVA']["ServerRegions"]["EU"]['NoOfTransactionsInput'])
-	JVNArecords.append(state["ServerState"]['ServerTiers']['JAVA']["ServerRegions"]["NA"]['NoOfTransactionsInput'])
-	JVAPrecords.append(state["ServerState"]['ServerTiers']['JAVA']["ServerRegions"]["AP"]['NoOfTransactionsInput'])
-	
-
-	WBEUrecords.append(state["ServerState"]['ServerTiers']['WEB']["ServerRegions"]["EU"]['NoOfTransactionsInput'])
-	WBNArecords.append(state["ServerState"]['ServerTiers']['WEB']["ServerRegions"]["NA"]['NoOfTransactionsInput'])
-	WBAPrecords.append(state["ServerState"]['ServerTiers']['WEB']["ServerRegions"]["AP"]['NoOfTransactionsInput'])
-
-
 
 def linreg(X, Y):
     """
@@ -172,6 +155,6 @@ def linreg(X, Y):
     det = Sxx * N - Sx * Sx
     return (Sxy * N - Sy * Sx)/det, (Sxx * Sy - Sx * Sxy)/det
 
-def rateofchange(records):
+def rateofchange(records, turnnum):
         m,b = linreg(range(len(records)),records) #your x,y are switched from standard notation
-        return m
+        return m *turnnum + b
